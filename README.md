@@ -4,11 +4,13 @@ Create an RGBA image compatible with ImageData
 
 The image will be initially filled with transparent black
 
-```
+All fields are readonly:
+
+```typescript
 {
-  readonly width: number
-  readonly height: number
-  readonly data: Uint8ClampedArray
+  width: number
+  height: number
+  data: Uint8ClampedArray
 }
 ```
 
