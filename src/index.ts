@@ -1,4 +1,4 @@
-export type CreateImage = ( width: number, height: number, data?: Uint8ClampedArray ) => ImageData
+import { CreateImage } from '@rgba-image/common'
 
 export const CreateImageFactory = ( fill: number[] | Uint8ClampedArray = [ 0, 0, 0, 0 ], channels = 4 ) => {
   channels = Math.floor( channels )
