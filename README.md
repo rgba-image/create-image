@@ -14,7 +14,11 @@ All fields are readonly:
 }
 ```
 
+## install
+
 `npm install @rgba-image/create-image`
+
+## usage
 
 ```js
 const { createImage } = require( '@rgba-image/create-image' )
