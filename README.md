@@ -1,8 +1,8 @@
 # create-image
 
-Create an RGBA image compatible with ImageData
+Create an RGBA image compatible with the [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) Web API interface
 
-The image will be initially filled with transparent black
+The image will be filled with transparent black - `[ 0, 0, 0, 0 ]`
 
 All fields are readonly:
 
@@ -22,7 +22,7 @@ const { createImage } = require( '@rgba-image/create-image' )
 const id = createImage( 300, 150 )
 ```
 
-Populate from an existing Uint8ClampedArray (must be width * height * 4 in length):
+Populate from an existing `Uint8ClampedArray` (must be `width * height * 4` in length):
 
 ```js
 const id = createImage( 300, 150, data )
