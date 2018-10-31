@@ -1,15 +1,17 @@
 export type CreateImage = ( width: number, height: number, data?: Uint8ClampedArray ) => ImageData
 
-export const CreateImageFactory = ( channels = 4, fill = [ 0, 0, 0, 0 ] ) => {
+export const CreateImageFactory = ( fill: number[] | Uint8ClampedArray = [ 0, 0, 0, 0 ], channels = 4 ) => {
   channels = Math.floor( channels )
 
   if( isNaN( channels ) || channels < 1 ){
-    throw TypeError( 'channels is not a number or less than 1' )
+    throw TypeError( 'channels should be a positive non-zero number' )
   }
 
-  if( !Array.isArray( fill ) ){
-    throw TypeError( 'fill is not an array' )
+  if ( !( 'length' in fill ) || fill.length < channels ){
+    throw TypeError( `fill should be iterable with at least ${ channels } members` )
   }
+
+  fill = ( new Uint8ClampedArray( fill ) ).slice( 0, channels )
 
   const allZero = fill.every( v => v === 0 )
 
@@ -42,7 +44,7 @@ export const CreateImageFactory = ( channels = 4, fill = [ 0, 0, 0, 0 ] ) => {
             const index = ( y * width + x ) * channels
 
             for ( let c = 0; c < channels; c++ ) {
-              data[ index + c ] = fill[ c ] || 0
+              data[ index + c ] = fill[ c ]
             }
           }
         }
