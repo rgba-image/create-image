@@ -1,8 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateImageFactory = (fill = [0, 0, 0, 0], channels = 4) => {
-    channels = Math.floor(channels);
-    if (isNaN(channels) || channels < 1) {
+exports.createImage = exports.CreateImageFactory = void 0;
+const env = (typeof window !== 'undefined' ?
+    window :
+    typeof global !== 'undefined' ?
+        global :
+        undefined);
+const ctor = (typeof env !== 'undefined' && typeof env['ImageData'] !== undefined ?
+    env['ImageData'] :
+    undefined);
+const CreateImageFactory = (fill = [0, 0, 0, 0], channels = 4) => {
+    channels |= 0;
+    if (channels < 1) {
         throw TypeError('channels should be a positive non-zero number');
     }
     if (!('length' in fill) || fill.length < channels) {
@@ -37,15 +46,14 @@ exports.CreateImageFactory = (fill = [0, 0, 0, 0], channels = 4) => {
                     }
                 }
             }
-            return {
-                get width() { return width; },
-                get height() { return height; },
-                get data() { return data; }
-            };
+            return (channels === 4 && ctor ?
+                new ctor(data, width, height) :
+                Object.freeze({ width, height, data }));
         }
         throw TypeError('Expected data to be Uint8ClampedArray or undefined');
     };
     return createImage;
 };
+exports.CreateImageFactory = CreateImageFactory;
 exports.createImage = exports.CreateImageFactory();
 //# sourceMappingURL=index.js.map

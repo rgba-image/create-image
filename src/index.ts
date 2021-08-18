@@ -1,9 +1,26 @@
 import { CreateImage } from '@rgba-image/common'
 
-export const CreateImageFactory = ( fill: number[] | Uint8ClampedArray = [ 0, 0, 0, 0 ], channels = 4 ) => {
-  channels = Math.floor( channels )
+const env = (
+  typeof window !== 'undefined' ? 
+    window :
+    typeof global !== 'undefined' ?
+      global :
+      undefined
+)
 
-  if( isNaN( channels ) || channels < 1 ){
+const ctor = (
+  typeof env !== 'undefined' && typeof env[ 'ImageData' ] !== undefined ? 
+  env[ 'ImageData' ] as typeof window.ImageData : 
+  undefined
+)
+
+export const CreateImageFactory = ( 
+  fill: number[] | Uint8ClampedArray = [ 0, 0, 0, 0 ], 
+  channels = 4 
+) => {
+  channels |= 0
+
+  if( channels < 1 ){
     throw TypeError( 'channels should be a positive non-zero number' )
   }
 
@@ -15,7 +32,10 @@ export const CreateImageFactory = ( fill: number[] | Uint8ClampedArray = [ 0, 0,
 
   const allZero = fill.every( v => v === 0 )
 
-  const createImage: CreateImage = ( width: number, height: number, data?: Uint8ClampedArray ) => {
+  const createImage: CreateImage = ( 
+    width: number, height: number, 
+    data?: Uint8ClampedArray 
+  ): ImageData => {
     if ( width === undefined || height === undefined ) {
       throw TypeError( 'Not enough arguments' )
     }
@@ -50,11 +70,11 @@ export const CreateImageFactory = ( fill: number[] | Uint8ClampedArray = [ 0, 0,
         }
       }
 
-      return <ImageData>{
-        get width() { return width },
-        get height() { return height },
-        get data() { return data }
-      }
+      return (
+        channels === 4 && ctor ?
+        new ctor( data, width, height ):
+        Object.freeze({ width, height, data })
+      )
     }
 
     throw TypeError( 'Expected data to be Uint8ClampedArray or undefined' )

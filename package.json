@@ -1,6 +1,6 @@
 {
   "name": "@rgba-image/create-image",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Create an RGBA image compatible with ImageData",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,10 +26,10 @@
   },
   "homepage": "https://github.com/rgba-image/create-image#readme",
   "dependencies": {
-    "@rgba-image/common": "^0.1.0"
+    "@rgba-image/common": "^0.1.13"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.1"
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.6.1"
   }
 }

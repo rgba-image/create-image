@@ -1,6 +1,8 @@
 # create-image
 
-Create an RGBA image compatible with the [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) Web API interface
+Create an RGBA image compatible with the 
+[ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) Web API 
+interface
 
 The image will be filled with transparent black - `[ 0, 0, 0, 0 ]`
 
@@ -14,6 +16,10 @@ All fields are readonly:
 }
 ```
 
+If the ImageData constructor is found in the global object, eg in the browser 
+or with a patched global in node, it will return an instance of that 
+constructor, otherwise it will return a plain javascript object
+
 ## install
 
 `npm install @rgba-image/create-image`
@@ -23,13 +29,13 @@ All fields are readonly:
 ```js
 const { createImage } = require( '@rgba-image/create-image' )
 
-const id = createImage( 300, 150 )
+const imageData = createImage( 300, 150 )
 ```
 
 Populate from an existing `Uint8ClampedArray` (must be `width * height * 4` in length):
 
 ```js
-const id = createImage( 300, 150, data )
+const imageData = createImage( 300, 150, data )
 ```
 
 This module also provides `CreateImageFactory`, so you can create a
@@ -41,14 +47,27 @@ const { CreateImageFactory } = require( '@rgba-image/create-image' )
 
 const createImage = CreateImageFactory( [ 0, 0, 0, 255 ] )
 
-const id = createImage( 300, 150 )
+const imageData = createImage( 300, 150 )
+```
+
+You can also create images with a different number of channels, but these will
+not be compatible with other modules in `rgba-image`:
+
+```js
+const { CreateImageFactory } = require( '@rgba-image/create-image' )
+
+const rgbChannels = 3
+
+const createRgbImage = CreateImageFactory( [ 0, 0, 0 ], rgbChannels )
+
+const imageData = createImage( 300, 150 )
 ```
 
 ## license
 
 MIT License
 
-Copyright (c) 2018 Nik Coughlin
+Copyright (c) 2021 Nik Coughlin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
